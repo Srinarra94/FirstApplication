@@ -109,14 +109,6 @@ namespace FirstApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    //if (!StudentmarksExists(studentmarks.Id))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
                 }
                 return RedirectToAction(nameof(Index));
             }

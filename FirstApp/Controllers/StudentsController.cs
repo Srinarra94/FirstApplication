@@ -112,9 +112,7 @@ namespace FirstApp.Controllers
                 var existingStudent = await _context.Student
                                      .FirstOrDefaultAsync(s => s.FirstName == student.FirstName &&
                                                                s.LastName == student.LastName &&
-                                                               s.FatherName == student.FatherName &&
-                                                               s.Address == student.Address &&
-                                                               s.PhoneNumber == student.PhoneNumber);
+                                                               s.FatherName == student.FatherName );
 
                 if (existingStudent != null)
                 {

@@ -20,6 +20,8 @@ namespace FirstApp.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
+        public string Email { get; set; }
+
         // Navigation property for related Studentmarks
         public ICollection<StudentMarks>? StudentMarks { get; set; }
     }

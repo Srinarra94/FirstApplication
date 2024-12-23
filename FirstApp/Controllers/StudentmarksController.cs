@@ -56,13 +56,16 @@ namespace FirstApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,Grade,TotalMarks")] StudentMarks studentmarks)
+        public async Task<IActionResult> CreateRecord([Bind("Id,StudentId,Grade,TotalMarks")] StudentMarks studentmarks)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(studentmarks);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (!StudentmarksExists(studentmarks.StudentId, studentmarks.Grade))
+                {
+                    _context.Add(studentmarks);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Id", studentmarks.StudentId);
             return View(studentmarks);
@@ -106,14 +109,14 @@ namespace FirstApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentmarksExists(studentmarks.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //if (!StudentmarksExists(studentmarks.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -155,9 +158,9 @@ namespace FirstApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentmarksExists(int id)
+        private bool StudentmarksExists(int studentId, string grade)
         {
-            return _context.StudentMarks.Any(e => e.Id == id);
+            return _context.StudentMarks.Any(e => e.StudentId == studentId && e.Grade==grade);
         }
     }
 }

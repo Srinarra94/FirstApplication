@@ -60,8 +60,10 @@ namespace FirstApp.Controllers
                 // Validation dor student First name and Last name while Create
                 var existingStudent = await _context.Student
                                       .FirstOrDefaultAsync(s => s.FirstName == student.FirstName && 
-                                                                s.LastName == student.LastName);
-                
+                                                                s.LastName == student.LastName &&
+                                                                s.FatherName == student.FatherName &&
+                                                                s.Address == student.Address &&
+                                                                s.PhoneNumber == student.PhoneNumber);
                 if (existingStudent != null)
                 {
                     // Add a custom error message to the ModelState
@@ -107,6 +109,20 @@ namespace FirstApp.Controllers
 
             if (ModelState.IsValid)
             {
+                var existingStudent = await _context.Student
+                                     .FirstOrDefaultAsync(s => s.FirstName == student.FirstName &&
+                                                               s.LastName == student.LastName &&
+                                                               s.FatherName == student.FatherName &&
+                                                               s.Address == student.Address &&
+                                                               s.PhoneNumber == student.PhoneNumber);
+
+                if (existingStudent != null)
+                {
+                    // Add a custom error message to the ModelState
+                    ModelState.AddModelError(string.Empty, "A student with the same details already exists.");
+                    return View(student);
+                }
+                // End of First Name and last name validation.
                 try
                 {
                     _context.Update(student);
